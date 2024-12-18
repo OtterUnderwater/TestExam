@@ -10,9 +10,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.example.testexam.view.bottomBar.BottomBar
 import com.example.testexam.view.navigation.Navigation
 import com.example.testexam.view.ui.theme.TestExamTheme
 
@@ -23,9 +26,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val controller = rememberNavController()
+            val isVisibleBar = remember { mutableStateOf(false) }
             TestExamTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) {
-                   Navigation(controller)
+                Scaffold(modifier = Modifier.fillMaxSize(),
+                    bottomBar =  { if (isVisibleBar.value) BottomBar(controller) }
+                ) {
+                   Navigation(controller, isVisibleBar)
                 }
             }
         }
